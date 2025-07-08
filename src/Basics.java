@@ -2,26 +2,24 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
-public class Main {
+public class Basics {
     public static void main(String[] args) {
-        Statement statement = null;
-        ResultSet rs = null;
+        Statement statement;
         try {
             Connection connection = LoadDriver.getConnection();
             System.out.println("Connection successful!");
             statement = connection.createStatement();
-            String sql = "CREATE DATABASE IF NOT EXISTS JDBC";
-            statement.execute(sql);
-            statement.execute("USE JDBC");
-            statement.execute("CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY, name VARCHAR(255), Phone VARCHAR(255))");
-            statement.execute("INSERT INTO users (id, name, Phone) VALUES (1, 'Dhruv', '1234567890')");
-            statement.execute("INSERT INTO users (id, name, Phone) VALUES (2, 'Shubham', '1234567890')");
-            statement.execute("INSERT INTO users (id, name, Phone) VALUES (3, 'Shivam', '1234567890')");
-            rs = statement.executeQuery("SELECT * FROM users");
-            while (rs.next()) {
-                System.out.println(rs.getInt("id") + " " + rs.getString("name") + " " + rs.getString("Phone"));
-            }
+            statement.execute("Use JDBC");
+            String query = "Insert into users (id, name, Phone) values (?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, 5);
+            preparedStatement.setString(2, "Dhruvika");
+            preparedStatement.setString(3, "1234587819");
+            int result = preparedStatement.executeUpdate();
+            System.out.println(result);
+            preparedStatement.close();
             connection.close();
 
         } catch (SQLException e) {
