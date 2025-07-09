@@ -6,7 +6,15 @@ import java.sql.PreparedStatement;
 
 public class Basics {
     public static void main(String[] args) {
+        // JDBC
+        // These below are the methods to connect to the database and execute queries
+        // Statement is used to execute queries
+        // ResultSet is used to get the results which are in the form of a table
+        // PreparedStatement is used to execute queries with parameters
+        // Connection is used to connect to the database
+        // SQLException is used to handle errors
         Statement statement;
+        ResultSet resultSet;
         try {
             Connection connection = LoadDriver.getConnection();
             System.out.println("Connection successful!");
