@@ -7,17 +7,17 @@ public class ModularDriver {
     private static String password;
 
     ModularDriver(String url, String user, String password){
-        if (url == null || user == null || password == null) {
-            throw new IllegalArgumentException("Database connection parameters cannot be null.");
-        }
-        if (url.isEmpty() || user.isEmpty() || password.isEmpty()) {
-            throw new IllegalArgumentException("Database connection parameters cannot be empty.");
+        boolean b = (user == null || user.isEmpty()) || (password == null || password.isEmpty());
+        if ((url == null || url.isEmpty()) || b) {
+            throw new IllegalArgumentException("Database connection parameters cannot be null");
         }
         if (!url.startsWith("jdbc:mysql://")) {
-            throw new IllegalArgumentException("Invalid URL format. It should start with 'jdbc:mysql://'.");
+            throw new IllegalArgumentException("URL must start with 'jdbc:mysql://'");
         }
-
-        // If all checks pass, set the static fields
+        if (user.length() < 3 || password.length() < 3) {
+            throw new IllegalArgumentException("Username and password must be at least 3 characters long");
+        }
+        // if all the checks pass, set the static variables
         ModularDriver.url = url;
         ModularDriver.user = user;
         ModularDriver.password = password;
